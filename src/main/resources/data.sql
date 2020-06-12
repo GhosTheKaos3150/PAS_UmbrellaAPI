@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS news(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT,
+    title VARCHAR(200) NOT NULL,
+    category VARCHAR(200) NOT NULL,
+    body VARCHAR(1000000) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS category(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL
+
+);
+
+CREATE TABLE IF NOT EXISTS subscription(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT,
+    user_email VARCHAR(100) NOT NULL
+
+);
+
+CREATE TABLE IF NOT EXISTS image(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    news_id INT,
+    source VARCHAR(200) NOT NULL
+
+);
