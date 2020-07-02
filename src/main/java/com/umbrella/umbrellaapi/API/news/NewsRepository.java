@@ -1,4 +1,4 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.news;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,12 +12,10 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Integer> {
 
     //Não deu pra testar se dá certo
-    @Query("FROM News n WHERE n.title = :title")
+    @Query("FROM News n WHERE n.title like %:title%")
     List<News> findNewsByTitle(@Param("title") String title);
 
-    //Não deu pra testar se dá certo
-    @Modifying
-    @Query("INSERT INTO Image (news, source) select :news, :source from Image")
-    void addImageTo(@Param("news") News news, @Param("source") String source);
+    @Query("FROM News n WHERE n.id = :id")
+    News findById(@Param("id") int id);
 
 }

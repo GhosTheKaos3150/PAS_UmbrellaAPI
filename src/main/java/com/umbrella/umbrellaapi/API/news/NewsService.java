@@ -1,4 +1,4 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.news;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class NewsService {
 
     public News get(int id) {
 
-        return newsRepo.getOne(id);
+        return newsRepo.findById(id);
 
     }
 
@@ -35,28 +35,6 @@ public class NewsService {
     public List<News> getByTitle(String title){
 
         return newsRepo.findNewsByTitle(title);
-
-    }
-
-    //Não deu pra testar se dá certo
-    public boolean saveImage(News news, Image image){
-
-        try{
-
-            newsRepo.addImageTo(news, image.getSource());
-            return true;
-
-        }catch (Exception ex){
-            return false;
-        }
-
-    }
-
-    public void put(int id, String body){
-
-        var news = newsRepo.getOne(id);
-
-        news.setBody(body);
 
     }
 

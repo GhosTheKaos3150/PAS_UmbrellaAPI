@@ -1,28 +1,23 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.config;
 
+import com.umbrella.umbrellaapi.API.category.Category;
+import com.umbrella.umbrellaapi.API.category.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/admin/category")
+public class AdminCategoryController {
 
+    @Autowired
     private CategoryService service;
 
-    public CategoryController(CategoryService service){
-
-        this.service = service;
-
-    }
-
-    //CRUD de Categorias
-
     @GetMapping
-    public ResponseEntity getAll(){
+    public ResponseEntity<List<Category>> getAll(){
 
         try{
 
@@ -39,35 +34,13 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOne(@PathVariable ("id") int id){
+    public ResponseEntity<Category> getOne(@PathVariable("id") int id){
 
         try{
 
             var category = service.getOne(id);
 
             return ResponseEntity.ok(category);
-
-        }catch (Exception ex){
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        }
-
-    }
-
-    //Vai dar erro
-    @PostMapping("/{id}/sub")
-    public ResponseEntity subscribe(@PathVariable ("id") int id, @RequestBody Subscription sub){
-
-        try{
-
-            var temp = service.getOne(id);
-
-            var result = service.saveSubscription(temp, sub.getUser_email());
-
-            if (result) return ResponseEntity.accepted().build();
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         }catch (Exception ex){
 
@@ -102,9 +75,9 @@ public class CategoryController {
 
         try{
 
-           service.put(id, category);
+            service.put(id, category);
 
-           return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
 
         }catch (Exception ex){
 

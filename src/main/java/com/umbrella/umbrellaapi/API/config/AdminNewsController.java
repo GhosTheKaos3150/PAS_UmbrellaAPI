@@ -1,25 +1,23 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.config;
 
-import org.springframework.data.repository.query.Param;
+import com.umbrella.umbrellaapi.API.news.News;
+import com.umbrella.umbrellaapi.API.news.NewsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/news")
-public class NewsController {
+import java.util.List;
 
+@RestController
+@RequestMapping("/admin/news")
+public class AdminNewsController {
+
+    @Autowired
     private NewsService service;
 
-    public NewsController(NewsService service) {
-        this.service = service;
-
-    }
-
-    //CRUD das Noticias
-
     @GetMapping
-    public ResponseEntity getAll() {
+    public ResponseEntity<List<News>> getAll() {
         try {
 
             var news = service.getAll();
@@ -35,7 +33,7 @@ public class NewsController {
 
     //TODO: Erro no GetOne
     @GetMapping("/{id}")
-    public ResponseEntity getOne(@PathVariable("id") int id) {
+    public ResponseEntity<News> getOne(@PathVariable("id") int id) {
 
         try {
 
@@ -50,8 +48,8 @@ public class NewsController {
         }
     }
 
-    @GetMapping("/{title}")
-    public ResponseEntity getByTitle(@PathVariable ("title") String title){
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<News>> getByTitle(@PathVariable ("title") String title){
 
         try{
 
@@ -67,28 +65,6 @@ public class NewsController {
 
     }
 
-    //Não deu pra testar, mas talvez dê erro
-    @PostMapping("/{id}/addimage")
-    public ResponseEntity addImage (@PathVariable ("id") int id, @RequestBody Image image){
-
-        try{
-
-            var temp = service.saveImage(service.get(id), image);
-
-            if (temp)
-                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        }catch (Exception ex){
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        }
-
-    }
-
-    //Está dando erro. Provavelmente porquê não estou sabendo formular o objeto Category dentro do objeto News
     @PostMapping
     public ResponseEntity add(@RequestBody News body){
         try {
@@ -102,21 +78,6 @@ public class NewsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         }catch(Exception ex){
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") int id, @RequestBody News body){
-        try {
-
-            service.put(id, body.getBody());
-
-            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-
-        }catch (Exception ex){
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 

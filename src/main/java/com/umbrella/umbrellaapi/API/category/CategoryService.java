@@ -1,4 +1,4 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.category;
 
 import org.springframework.stereotype.Service;
 
@@ -30,18 +30,11 @@ public class CategoryService {
 
     }
 
-    //Não deu pra testar se dá certo
-    public boolean saveSubscription(Category category, String email){
-
-        return categoryRepository.subscriptionByCategory(category.getId(), email);
-
-    }
-
     public void put(int id,  Category category){
 
         var temp = categoryRepository.getOne(id);
 
-        temp.setCategory(category.getCategory());
+        temp.setNames(category.getNames());
 
     }
 

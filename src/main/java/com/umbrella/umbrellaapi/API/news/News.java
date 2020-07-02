@@ -1,4 +1,6 @@
-package com.umbrella.umbrellaapi.API;
+package com.umbrella.umbrellaapi.API.news;
+
+import com.umbrella.umbrellaapi.API.category.Category;
 
 import javax.persistence.*;
 
